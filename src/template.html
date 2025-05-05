@@ -6,14 +6,42 @@
     <title>ToDo application</title>
 </head>
 <body>
-    <div class="sidenav">
-        <ul>
-            <li>All Tasks</li>
-            <li>Today</li>
-            <li>Weekly</li>
-            <li>Complete</li>
-        </ul>
+    <div id="container">
+
+        <div class="sidenav">
+            <ul>
+                <li>All Tasks</li>
+                <li>Today</li>
+                <li>Weekly</li>
+                <li>Complete</li>
+            </ul>
+        </div>
+        
+        
+        <div class="addItem">
+                <div class="inputTag">
+                    <form >
+                    <label for="inputTag">Add Item</label>
+                    <input type="text" name="inputTag" id="inputTag" required >
+
+                    <button id="sumbitTodoBtn">Submit</button>
+                </div>
+            </form>
+                <div class="todoData">
+            
+                </div>
+        </div>
     </div>
+
+    <dialog>
+
+            <button autofocus>Close</button>
+            <label for="editInputTag">Add Item</label>
+            <input type="text" name="editInputTag" id="editInputTag" >
+            <input type="submit" value="submitEditValue" id="submitEditValue">
+            
+      </dialog>
+      
 
 </body>
 </html>

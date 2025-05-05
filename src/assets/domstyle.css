@@ -1,0 +1,8 @@
+.divContainer{
+    position: relative;
+    top: 60px;
+    display: flex;
+    width: 300px;
+    background-color: #f7f7f7;
+    color: black;
+}
