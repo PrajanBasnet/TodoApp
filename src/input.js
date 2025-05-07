@@ -4,36 +4,46 @@ let dialog = document.querySelector("dialog");
 let closeBtn = document.querySelector("dialog button")
 let submitEditValue = document.querySelector("#submitEditValue");
 
-
-
 let todoArryValue = localStorage.getItem("ArrayItem") ;
 let storingInLocal = todoArryValue ? JSON.parse(todoArryValue) : [];
 
 let i = 0;
+
 function generateTags(data){
-     i = i + 1;
+    i = i + 1;
     let pTag = document.createElement("p");
     pTag.textContent = data;
 
-    let button = document.createElement("button");
-    button.textContent = "Edit";
+    let edit = document.createElement("button");
+    let deleteButton = document.createElement("button");
 
-    button.setAttribute("id", i)
-    button.addEventListener("click",(e)=>{
+    edit.textContent = "Edit";
+    deleteButton.textContent = "delete";
+    
+    edit.setAttribute("id", i)
+    edit.addEventListener("click",(e)=>{
         dialog.showModal()
         editTheTodo(data);
     })
-    todoData.append(pTag,button);
+
+    deleteButton.addEventListener("click",(e)=>{
+        deleteTheTodo(data)
+    })
+    todoData.append(pTag,edit,deleteButton);
 }
 
+function deleteTheTodo(data){
+        const updatedTodo = storingInLocal.filter((item) => item != data);
+        localStorage.setItem("ArrayItem", JSON.stringify(updatedTodo));
+        location.reload()
+    }
 
 function editTheTodo(item){
-    const editedItem = storingInLocal.filter((data) => data === item);
     submitEditValue.addEventListener("click",(e)=>{
         dialog.close();
         let editInputTag = document.querySelector("#editInputTag").value;
         for (let i = 0; i < storingInLocal.length; i++) {
-            if( storingInLocal[i] === item){
+            if(storingInLocal[i] === item){
                 storingInLocal[i] = editInputTag;
                 console.log(storingInLocal[i])
                 localStorage.setItem("ArrayItem",JSON.stringify(storingInLocal))
