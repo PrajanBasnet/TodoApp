@@ -19,13 +19,14 @@
         
         
         <div class="addItem">
-                <div class="inputTag">
+                <button id="AddNewTodo">Add todo</button>
+                <dialog class="inputTag">
                     <form >
                     <label for="inputTag">Add Item</label>
                     <input type="text" name="inputTag" id="inputTag" required >
                     <input type="date" name="todoDate" id="todoData">
                     <button id="sumbitTodoBtn">Submit</button>
-                </div>
+                    </dialog>
             </form>
                 <div class="todoData">
             
@@ -33,7 +34,7 @@
         </div>
     </div>
 
-    <dialog>
+    <dialog id="editDialog">
 
             <button autofocus>Close</button>
             <label for="editInputTag">Add Item</label>
