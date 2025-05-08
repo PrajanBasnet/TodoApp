@@ -8,15 +8,14 @@ let submitEditValue = document.querySelector("#submitEditValue");
 let AddNewTodo = document.querySelector("#AddNewTodo");
 
 let todoArryValue = localStorage.getItem("ArrayItem");
-let storingInLocal = todoArryValue ? JSON.parse(todoArryValue) : {};
+let storingInLocal = todoArryValue ? JSON.parse(todoArryValue) : [];
 let i = 0;
 
-function generateTags(data) {
+function generateTags(data, myDate) {
     i = i + 1;
 
     let pTag = document.createElement("p");
-    pTag.textContent = data;
-
+    pTag.innerHTML = `${data.content} <h3> ${myDate} </h3>`;
     let edit = document.createElement("button");
     let deleteButton = document.createElement("button");
 
@@ -59,8 +58,13 @@ function editTheTodo(item) {
     })
 }
 
-function saveItemInStorage(data) {
-    storingInLocal.push(data)
+function saveItemInStorage(data, myDate) {
+    let test = {
+        "content": data,
+        "todoDate": myDate
+    }
+    console.log(test)
+    storingInLocal.push(test)
     localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal));
 
 }
@@ -71,20 +75,22 @@ sumbitTodoBtn.addEventListener("click", (e) => {
     e.preventDefault();
     let inputValue = document.querySelector("#inputTag").value;
     let myDate = document.querySelector("#myDate").value;
-    saveItemInStorage(inputValue)
-    generateTags(inputValue);
     console.log(myDate)
+    generateTags(inputValue, myDate);
+    saveItemInStorage(inputValue, myDate)
 
 })
 
-AddNewTodo.addEventListener("click",(e)=>{
+AddNewTodo.addEventListener("click", (e) => {
     e.preventDefault();
     dialogInput.showModal();
 })
 
 document.addEventListener("DOMContentLoaded", (e) => {
     storingInLocal.forEach(todoItems => {
-        generateTags(todoItems)
+        console.log(todoItems)
+        console.log(todoItems["todoDate"])
+        generateTags(todoItems,todoItems["todoDate"])
     });
 })
 
