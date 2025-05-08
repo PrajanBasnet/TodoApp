@@ -1,77 +1,18 @@
-let todoData = document.querySelector(".todoData");
-let sumbitTodoBtn = document.querySelector("#sumbitTodoBtn");
-let dialog = document.querySelector("dialog");
-let closeBtn = document.querySelector("dialog button")
+import { compareAsc,format, formatDistance , subDays } from "date-fns";
+format(new Date(2014,1,11), "yyy-MM-dd");
 
+const dates = [
+    new Date(1994,3,4),
+    new Date(2024,3,23),
+    new Date(2025,4,8),
 
-let currentEditingPTag = null;
+];
 
-function deleteTodoTags(divContainer) {
-    let deletebutton = document.createElement("button");
-    deletebutton.textContent = "Delete";
-    deletebutton.classList = "deleteButton";
-    deletebutton.addEventListener("click", () => {
-        divContainer.innerHTML = "";
-    })
-    return deletebutton;
+function dateValue(){
+   console.log( dates.sort(compareAsc));
+   console.log(new Date())
+   console.log(formatDistance(subDays(new Date(), 4), new Date(), { addSuffix: true }));
+    console.log(formatDistance(subDays(dates)))
 }
 
-
-let submitEditValue = document.querySelector("#submitEditValue");
-let editInputTag = document.querySelector("#editInputTag");
-
-submitEditValue.addEventListener("click", (e) => {
-    e.preventDefault();
-    if (currentEditingPTag) {
-        currentEditingPTag.textContent = editInputTag.value;
-        dialog.close();
-    }
-})
-
-closeBtn.addEventListener("click", () => {
-    dialog.close();
-});
-
-
-function createTodos(itms){
-    let pTag = document.createElement("p");
-    pTag.textContent = itms
-    pTag.classList = "todoInfo";
-    todoData.appendChild(pTag);
-    saveTask(itms);
-}
-
-let tasks = JSON.parse(localStorage.getItem("myTask")) || [];
-
-function saveTask(items){
-    
-    tasks.push(items);
-    localStorage.setItem("myTask",JSON.stringify(tasks));
-    loadTasks()
-}
-
-function loadTasks(){
-    console.log(JSON.parse(localStorage.getItem("myTask")));
-}
-
-
-sumbitTodoBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    let inputTagValue = document.querySelector("#inputTag").value;
-    createTodos(inputTagValue)
-
-})
-function t(x){
-    let pTag = document.createElement("p");
-    pTag.textContent = x;
-    pTag.classList = "todoInfo";
-    todoData.appendChild(pTag);
-}
-window.addEventListener("DOMContentLoaded", () => {
-
-    tasks.forEach(task => {
-       t(task)
-    });
-});
-
-export {createTodos} ;
+export { dateValue }
