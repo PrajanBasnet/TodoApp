@@ -1,20 +1,20 @@
+import {format, compareAsc , differenceInCalendarDays ,isPast } from "date-fns";
+import "./test.js"
+import { deleteTheTodo  , todoArryValue , storingInLocal } from "./storage.js";
+
 let todoData = document.querySelector(".todoData");
 let sumbitTodoBtn = document.querySelector("#sumbitTodoBtn");
 let dialog = document.querySelector("#editDialog");
-let dialogInput = document.querySelector(".inputTag");
-
 let closeBtn = document.querySelector("dialog button")
 let submitEditValue = document.querySelector("#submitEditValue");
-let AddNewTodo = document.querySelector("#AddNewTodo");
 
-let todoArryValue = localStorage.getItem("ArrayItem");
-let storingInLocal = todoArryValue ? JSON.parse(todoArryValue) : [];
+
 let i = 0;
 
 function generateTags(data, myDate) {
     i = i + 1;
-
     let pTag = document.createElement("p");
+    let pTagDate = document.createElement("p");
     pTag.innerHTML = `${data.content} <h3> ${myDate} </h3>`;
     let edit = document.createElement("button");
     let deleteButton = document.createElement("button");
@@ -25,71 +25,69 @@ function generateTags(data, myDate) {
     edit.setAttribute("id", i)
     edit.addEventListener("click", (e) => {
         dialog.showModal()
-        editTheTodo(data);
+        editTheTodo(data,myDate);
     })
 
     deleteButton.addEventListener("click", (e) => {
         deleteTheTodo(data)
     })
-    todoData.append(pTag, edit, deleteButton);
+    let dateObj = isPast(new Date(myDate));
+    let checkPast = dateObj;
+    let dates = new Date(myDate)
+    pTagDate.innerHTML = `${format(dates, "EEEE/MMM/yyy")}`
+    if(checkPast === false){
+        
+    }
+    console.log(checkPast)
+
+    todoData.append(pTag, pTagDate, edit, deleteButton);
 }
 
-function deleteTheTodo(data) {
-    const updatedTodo = storingInLocal.filter((item) => item != data);
-    localStorage.setItem("ArrayItem", JSON.stringify(updatedTodo));
-    location.reload()
-}
 
-function editTheTodo(item) {
+
+function editTheTodo(item,myItem) {
     let e = document.querySelector("#editInputTag");
-    e.value = item;
+    e.value = item.content;
     console.log(item)
-    submitEditValue.addEventListener("click", (e) => {
+    submitEditValue.addEventListener("click", (a) => {
+        a.preventDefault()
         let editInputTag = document.querySelector("#editInputTag").value;
-        dialog.close();
         for (let i = 0; i < storingInLocal.length; i++) {
             if (storingInLocal[i] === item) {
-                storingInLocal[i] = editInputTag;
+                storingInLocal[i]["content"] = editInputTag;
                 console.log(storingInLocal[i])
                 localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal))
                 location.reload()
+
             }
+      
         }
+        dialog.close();
     })
 }
 
+
+// saveItemInStorage(data,myData)
 function saveItemInStorage(data, myDate) {
     let test = {
         "content": data,
         "todoDate": myDate
     }
-    console.log(test)
     storingInLocal.push(test)
     localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal));
-
 }
-
-// submit the Add button 
 
 sumbitTodoBtn.addEventListener("click", (e) => {
     e.preventDefault();
     let inputValue = document.querySelector("#inputTag").value;
     let myDate = document.querySelector("#myDate").value;
-    console.log(myDate)
     generateTags(inputValue, myDate);
     saveItemInStorage(inputValue, myDate)
 
 })
 
-AddNewTodo.addEventListener("click", (e) => {
-    e.preventDefault();
-    dialogInput.showModal();
-})
-
 document.addEventListener("DOMContentLoaded", (e) => {
     storingInLocal.forEach(todoItems => {
-        console.log(todoItems)
-        console.log(todoItems["todoDate"])
         generateTags(todoItems,todoItems["todoDate"])
     });
 })
