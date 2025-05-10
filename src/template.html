@@ -1,10 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ToDo application</title>
 </head>
+
 <body>
     <div id="container">
 
@@ -14,37 +16,61 @@
                 <li>Today</li>
                 <li>Weekly</li>
                 <li>Complete</li>
+                <li id="newProject">New Project
+
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <div class="myprj">
+                        
+                    </div>
+                </li>
             </ul>
         </div>
-        
-        
-        <div class="addItem">
-                <button id="AddNewTodo">Add todo</button>
-                <form>
-                <dialog class="inputTag">
-                    <form >
-                    <label for="inputTag">Add Item</label>
-                    <input type="text" name="inputTag" id="inputTag" required >
-                    <input type="date" id="myDate" >
 
-                    <button id="sumbitTodoBtn">Submit</button>
-                    </dialog>
+
+        <div class="addItem">
+            <button id="AddNewTodo">Add todo</button>
+            <form>
+                <dialog class="inputTag">
+                    <form>
+                        <label for="inputTag">Add Item</label>
+                        <input type="text" name="inputTag" id="inputTag" required>
+                        <input type="date" id="myDate">
+
+                        <button id="sumbitTodoBtn">Submit</button>
+                </dialog>
             </form>
-                <div class="todoData">
-            
-                </div>
+
+
+            <div class="todoData">
+
+            </div>
+        </div>
+        <div class="newProjectDiv">
+            <!-- <button id="AddNewTodo">Add todo</button> -->
+
+            <dialog class="projectDialog">
+                <form>
+                    <label for="inputTag">Add Item</label>
+                    <input type="text" name="inputTag" id="projectName" required>
+                    <button id="submitProjectName">Submit</button>
+                </form>
+            </dialog>
         </div>
     </div>
 
     <dialog id="editDialog">
 
-            <button autofocus>Close</button>
-            <label for="editInputTag">Add Item</label>
-            <input type="text" name="editInputTag" id="editInputTag" >
-            <input type="submit" value="submitEditValue" id="submitEditValue">
-            
-      </dialog>
-      
+        <button id="close" autofocus>Close</button>
+        <label for="editInputTag">Add Item</label>
+        <input type="text" name="editInputTag" id="editInputTag">
+        <input type="submit" value="submitEditValue" id="submitEditValue">
+
+    </dialog>
+
 
 </body>
+
 </html>
