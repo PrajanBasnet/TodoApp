@@ -1,7 +1,7 @@
-import {format, compareAsc , differenceInCalendarDays ,isPast } from "date-fns";
+import { format, compareAsc, differenceInCalendarDays, isPast } from "date-fns";
 // import "./test.js"
-import { deleteTheTodo , storingInLocal } from "./storage.js";
-
+import { deleteTheTodo, storingInLocal } from "./storage.js";
+import { testF } from "./project.js";
 let todoData = document.querySelector(".todoData");
 let sumbitTodoBtn = document.querySelector("#sumbitTodoBtn");
 let dialog = document.querySelector("#editDialog");
@@ -10,38 +10,35 @@ let submitEditValue = document.querySelector("#submitEditValue");
 
 let i = 0;
 
-function generateTags(data, myDate,project) {
+export function generateTags(data, myDate, project) {
     i = i + 1;
     let pTag = document.createElement("p");
     let pTagDate = document.createElement("p");
-    pTag.innerHTML = `${data.content} <h3> ${myDate} </h3>`;
     let edit = document.createElement("button");
     let deleteButton = document.createElement("button");
+    let dateObj = isPast(new Date(myDate));
+    let checkPast = dateObj;
+    let dates = new Date(myDate)
+
+    pTag.innerHTML = `${data.content} <h3> ${myDate} </h3>`;
+    
 
     edit.textContent = "Edit";
     deleteButton.textContent = "delete";
 
     edit.addEventListener("click", (e) => {
         dialog.showModal()
-        editTheTodo(data,myDate);
+        editTheTodo(data, myDate);
     })
 
     deleteButton.addEventListener("click", (e) => {
         deleteTheTodo(data)
     })
-    let dateObj = isPast(new Date(myDate));
-    let checkPast = dateObj;
-    let dates = new Date(myDate)
     pTagDate.innerHTML = `${format(dates, "EEEE/MMM/yyy")}`
-    if(checkPast === false){
-        
-    }
-    // console.log(checkPast)
-
     todoData.append(pTag, pTagDate, edit, deleteButton);
 }
 
-function editTheTodo(item,myItem) {
+function editTheTodo(item, myItem) {
     let e = document.querySelector("#editInputTag");
     e.value = item.content;
     submitEditValue.addEventListener("click", (a) => {
@@ -53,16 +50,16 @@ function editTheTodo(item,myItem) {
                 localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal))
                 location.reload()
 
-            }        
+            }
         }
     })
-    closeBtn.addEventListener("click",()=>{
+    closeBtn.addEventListener("click", () => {
         dialog.close()
     })
 }
 
 // saveItemInStorage(data,myData)
-function saveItemInStorage(data, myDate,project) {
+function saveItemInStorage(data, myDate, project) {
     let test = {
         "content": data,
         "todoDate": myDate,
@@ -78,14 +75,26 @@ sumbitTodoBtn.addEventListener("click", (e) => {
     let inputValue = document.querySelector("#inputTag").value;
     let myDate = document.querySelector("#myDate").value;
     let project = "All";
-    generateTags(inputValue, myDate , project);
-    saveItemInStorage(inputValue, myDate,project)
+    generateTags(inputValue, myDate, project);
+    saveItemInStorage(inputValue, myDate, project)
 
 })
 
+
+
+
 document.addEventListener("DOMContentLoaded", (e) => {
+    testF()
+
     storingInLocal.forEach(todoItems => {
-        generateTags(todoItems,todoItems["todoDate"])
+        generateTags(todoItems, todoItems["todoDate"])
+    });
+
+    storingInLocal.forEach(projectName => {
+        if(projectName.project != "All"){
+            console.log(projectName.project)
+
+        }
     });
 })
 
