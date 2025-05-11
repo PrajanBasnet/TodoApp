@@ -1,41 +1,42 @@
 import { format, compareAsc, differenceInCalendarDays, isPast } from "date-fns";
-// import "./test.js"
 import { deleteTheTodo, storingInLocal } from "./storage.js";
-import { testF } from "./project.js";
+import "./project.js";
 let todoData = document.querySelector(".todoData");
 let sumbitTodoBtn = document.querySelector("#sumbitTodoBtn");
 let dialog = document.querySelector("#editDialog");
 let closeBtn = document.querySelector("#close");
 let submitEditValue = document.querySelector("#submitEditValue");
+let defaultProject = document.querySelector("#defaultprj");
+
 
 let i = 0;
 
 export function generateTags(data, myDate, project) {
     i = i + 1;
+    if(data.content != ""){
+
     let pTag = document.createElement("p");
     let pTagDate = document.createElement("p");
     let edit = document.createElement("button");
     let deleteButton = document.createElement("button");
-    let dateObj = isPast(new Date(myDate));
-    let checkPast = dateObj;
+    let dateObj = isPast(new Date(myDate.todoDate));
     let dates = new Date(myDate)
-
-    pTag.innerHTML = `${data.content} <h3> ${myDate} </h3>`;
-    
+    pTag.innerHTML = `${data.content}`;
 
     edit.textContent = "Edit";
     deleteButton.textContent = "delete";
-
+    
     edit.addEventListener("click", (e) => {
         dialog.showModal()
-        editTheTodo(data, myDate);
+        editTheTodo(data, myDate.todoDate);
     })
 
     deleteButton.addEventListener("click", (e) => {
         deleteTheTodo(data)
     })
-    pTagDate.innerHTML = `${format(dates, "EEEE/MMM/yyy")}`
+    // pTagDate.innerHTML = `${format(dates, 'EEEE/MM/yyyy')}`;
     todoData.append(pTag, pTagDate, edit, deleteButton);
+}
 }
 
 function editTheTodo(item, myItem) {
@@ -49,7 +50,6 @@ function editTheTodo(item, myItem) {
                 storingInLocal[i]["content"] = editInputTag;
                 localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal))
                 location.reload()
-
             }
         }
     })
@@ -72,31 +72,60 @@ document.querySelector("#myDate").valueAsDate = new Date();
 
 sumbitTodoBtn.addEventListener("click", (e) => {
     e.preventDefault();
+    let defaultProject = document.querySelector("#defaultprj");
+    defaultProject.value = "default"
     let inputValue = document.querySelector("#inputTag").value;
     let myDate = document.querySelector("#myDate").value;
     let project = "All";
-    generateTags(inputValue, myDate, project);
-    saveItemInStorage(inputValue, myDate, project)
+    generateTags(inputValue, myDate, defaultProject.value);
+    saveItemInStorage(inputValue, myDate, defaultProject.value)
 
 })
-
-
-
-
 document.addEventListener("DOMContentLoaded", (e) => {
-    testF()
-
     storingInLocal.forEach(todoItems => {
-        generateTags(todoItems, todoItems["todoDate"])
+        generateTags(todoItems, todoItems.todoDate, todoItems.project)
+        newProjectNav(todoItems.project)
+
     });
 
-    storingInLocal.forEach(projectName => {
-        if(projectName.project != "All"){
-            console.log(projectName.project)
-
-        }
-    });
 })
 
+//project area
+let newProject = document.querySelector("#newProject");
+let projectDialog = document.querySelector(".projectDialog");
+let submitProjectName = document.querySelector("#submitProjectName");
+let myprj = document.querySelector(".myprj")
+newProject.addEventListener("click",(e)=>{
+    e.preventDefault();
+    projectDialog.showModal()
+})
 
+submitProjectName.addEventListener("click",(e)=>{
+    e.preventDefault();
+    let projectName = document.querySelector("#projectName").value;
+    
+    saveItemInStorage("","",projectName);
+    newProjectNav(projectName)
+    projectDialog.close()
+})
 
+function newProjectNav(data){
+    let ptag = document.createElement("p");
+    ptag.classList = "prjClass"
+    ptag.innerHTML = data;
+    let defaultProject = document.querySelector("#defaultprj");
+    defaultProject.value = data;
+    ptag.addEventListener("click",(e)=>{
+        todoData.innerHTML = "";
+        storingInLocal.forEach(todoItems => {
+            // newProjectNav(todoItems.project)
+            if(todoItems.project === data){
+                
+                generateTags(todoItems, todoItems.todoDate, todoItems.project)
+            }
+    
+        });
+        console.log(data)
+    })
+    myprj.appendChild(ptag);
+}
