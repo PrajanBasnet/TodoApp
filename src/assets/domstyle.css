@@ -7,5 +7,18 @@
     color: black;
 }
 .prjClass:hover{
-    background-color: blue;
+    background-color: rgb(174, 174, 223);
+}
+button{
+    gap: 10px;
+    background-color: #db4c3f;
+    width: 100px;
+    height: 40px;
+    border: none;
+    color: white;
+    font-size: 18px;
+}
+
+button:hover{
+        background-color: #f74838 ;
 }

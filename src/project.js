@@ -1,60 +1,54 @@
-// import { generateTags } from "./input.js";
-// import { deleteTheTodo, storingInLocal } from "./storage.js";
+import { format, isFuture, isToday } from "date-fns";
+import { deleteTheTodo, storingInLocal } from "./storage.js";
+import { generateTags,localStorageForeach } from "./input.js";
+let color = "#cccccc";
 
-// let newProject = document.querySelector("#newProject");
-// let todoData = document.querySelector(".todoData");
-// let addItem = document.querySelector(".addItem");
-// let projectDialog = document.querySelector(".projectDialog");
-// let submitProjectName = document.querySelector("#submitProjectName");
-// let myprj = document.querySelector(".myprj");
+let todoData = document.querySelector(".todoData");
 
-// let AddNewTodo = document.querySelector("#AddNewTodo");
-// let project = "All";
+function setTagProperties(selector,color){
+    let element = document.querySelector(selector);
 
+    if(element){
+        element.addEventListener("mouseover",() =>{
+            
+            element.style.background = color;
+        })
+        element.addEventListener("mouseout",()=>{
+            element.style.background = "#dddddd"
+        })
+    }
+    return element
+}
 
-// let prj = localStorage.getItem("ArrayItem");
-// let prjToJson = prj ? JSON.parse(prj) : [];
+let AllTask = setTagProperties("#AllTask",color)
+let Upcomming = setTagProperties("#Upcomming",color);
+let today = setTagProperties("#today",color)
 
-// newProject.addEventListener("click", (event) => {
-//         projectDialog.showModal()
-// })
+AllTask.addEventListener("click", (e) => {
+    todoData.innerHTML = " "
+    localStorageForeach()
+})
 
-// function saveItemInStorage(data, myDate, project) {
-//         let test = {
-//             "content": data,
-//             "todoDate": myDate,
-//             "project": project
-//         }
-//         storingInLocal.push(test)
-//         localStorage.setItem("ArrayItem", JSON.stringify(storingInLocal));
-//     }
+Upcomming.addEventListener("click",(e)=>{
+    todoData.innerHTML = "";
+    storingInLocal.forEach(todoItems => {
+        let dateObj = isFuture(new Date(todoItems.todoDate));
+        console.log(dateObj)
+        if(dateObj === true){
+            generateTags(todoItems, todoItems.todoDate, todoItems.project,todoItems.priority , todoItems.checkBox )
+        }
+    });
 
+})
 
-// export function testF() {
+today.addEventListener("click",(e)=>{
+    todoData.innerHTML = "";
+    storingInLocal.forEach(todoItems => {
+        let dateObj = isToday(new Date(todoItems.todoDate));
+        console.log(dateObj)
+        if(dateObj === true){
+            generateTags(todoItems, todoItems.todoDate, todoItems.project,todoItems.priority,todoItems.checkBox )
+        }
+    });
 
-//         submitProjectName.addEventListener("click", (e) => {
-//                 e.preventDefault()
-//                 projectDialog.close();
-//                 let ptag = document.createElement("p");
-//                 let projectName = document.querySelector("#projectName").value;
-
-//                 ptag.innerHTML = `${projectName}`;
-//                 ptag.className = "prjClass";
-//                 let a = ptag.innerHTML;
-                
-//                 ptag.addEventListener("click", (e) => {
-//                         todoData.style.display = "none"
-//                         sumbitTodoBtn.addEventListener("click", (e) => {
-//                             e.preventDefault();
-//                             let inputValue = document.querySelector("#inputTag").value;
-//                             let myDate = document.querySelector("#myDate").value;
-//                             generateTags(inputValue, myDate, a);
-//                             saveItemInStorage(inputValue, myDate, a)
-//                         })
-                        
-//                 })
-//                 myprj.appendChild(ptag);
-//         })
-// }
-
-
+})
