@@ -12,10 +12,10 @@
 
         <div class="sidenav">
             <ul>
-                <li>All Tasks</li>
-                <li>Today</li>
-                <li>Weekly</li>
-                <li>Complete</li>
+                <li id="AllTask">All Tasks</li>
+                <li id="today">Today</li>
+                <li id="Upcomming">Upcomming</li>
+                <li id="completePrj">Complete</li>
                 <li id="newProject">New Project
 
                 </li>
@@ -39,6 +39,12 @@
                         <input type="text" name="inputTag" id="inputTag" required>
                         <input type="date" id="myDate">
                         <input type="text" id="defaultprj" value="default">
+                        <input type="checkbox" name="check" id="check">
+                        <select name="" id="selectBar">
+                            <option value="High">High</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                        </select>
                         <button id="sumbitTodoBtn">Submit</button>
                 </dialog>
             </form>
@@ -67,6 +73,7 @@
         <button id="close" autofocus>Close</button>
         <label for="editInputTag">Add Item</label>
         <input type="text" name="editInputTag" id="editInputTag">
+        <input type="date" id="mDate">
         <input type="submit" value="submitEditValue" id="submitEditValue">
 
     </dialog>
